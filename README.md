@@ -129,12 +129,15 @@ the world. The following links should get you started:
 * git clone https://github.com/andyyumiao/salt.git
 
 * 进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
+* salt：基于redis pub/sub重构优化的salt主命令
 * salt-maid：salt-syndic的替代品，运行在salts-syndic节点
 * salt-apiv2：salt-api的替代品，运行在salt-master节点
-* salt：基于redis pub/sub重构优化的salt命令
-* saltx：官方原生salt命令，已废弃
+* saltx：对应官方原生salt命令，运行在salt-master节点，用于控制salt-maid节点
+* salt-minion：原生salt-minion。注意：在salt-maid节点上也需要启该服务
+* salt-syndic：已废弃。
+* salt-api：已废弃。
 
-RPM打包
+RPM打包（用于RPM方式安装，目前尚不可靠，不建议使用，待优化）
 ===============
 
 * 安装rpm：yum install rpmdevtools && yum install -y rpm-build && rpmdev-setuptree
@@ -150,7 +153,7 @@ RPM打包
 RPM安装
 ===============
 * 说明：使用yum本地安装模式
-* 步骤：将RPM包放入任意目录下，执行：yum localinstall salt-2019.1.18-1.el7.centos.noarch.rpm salt-master-2019.1.18-1.el7.centos.noarch.rpm salt-minion-2019.1.18-1.el7.centos.noarch.rpm salt-syndic-2019.1.18-1.el7.centos.noarch.rpm salt-maid-2019.1.18-1.el7.centos.noarch.rpm
+* 步骤：将RPM包放入任意目录下，执行：yum localinstall salt-x.x.x-1.el7.centos.noarch.rpm salt-master-x.x.x-1.el7.centos.noarch.rpm salt-minion-x.x.x-1.el7.centos.noarch.rpm salt-syndic-x.x.x-1.el7.centos.noarch.rpm salt-maid-x.x.x-1.el7.centos.noarch.rpm
 
 架构说明
 ===============
