@@ -122,13 +122,8 @@ the world. The following links should get you started:
 
 4.架构说明
 
-
-源码安装
+说明
 ===============
-
-* git clone https://github.com/andyyumiao/salt.git
-
-* 进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
 * salt：基于redis pub/sub重构优化的salt主命令
 * salt-maid：salt-syndic的替代品，运行在salts-syndic节点
 * salt-apiv2：salt-api的替代品，运行在salt-master节点
@@ -136,6 +131,18 @@ the world. The following links should get you started:
 * salt-minion：原生salt-minion。注意：在salt-maid节点上也需要启该服务
 * salt-syndic：已废弃。
 * salt-api：已废弃。
+
+
+源码安装
+===============
+
+* git clone https://github.com/andyyumiao/salt.git
+
+* 进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
+* 修改salt master端配置文件，增加redis配置：
+** vim /etc/salt/master
+
+
 
 RPM打包（用于RPM方式安装，目前尚不可靠，不建议使用，待优化）
 ===============
