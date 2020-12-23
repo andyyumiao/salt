@@ -140,7 +140,7 @@ the world. The following links should get you started:
 
 * 进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
 * 修改salt master端配置文件，增加redis配置：
-** vim /etc/salt/master
+.. vim /etc/salt/master
 
 
 
