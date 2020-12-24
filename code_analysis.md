@@ -135,6 +135,27 @@ try:
 except Exception, e:
     maid_log.info(traceback.format_exc())
 ```
+另外需注意的地方是，salt-maid端定义了一个枚举，用来解析处理salt master下发的各种指令，请围绕其定义查看相关实现逻辑：
+```
+class FunctionType:
+    #同步执行命令
+    SYNC_RUN = 'sync_run'
+    
+    #异步执行命令
+    ASYNC_RUN = 'aysnc_run'
+    
+    #查询jid执行结果
+    LOOKUP_JID = 'jobs.list_job'
+    
+    #查询job列表
+    LIST_JOBS = 'jobs.list_jobs'
+    
+    #获取maid节点上accept的minion ip列表
+    FIND_ACCEPT = 'find_accept'
+    
+    #salt文本文件拷贝指令
+    SALT_CP = 'salt_cp'
+```
 
 salt apiv2核心代码分析
 ==================
