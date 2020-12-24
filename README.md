@@ -121,6 +121,8 @@ the world. The following links should get you started:
 
 说明
 ===============
+由于重构了Salt Master和Salt Syndic之间的通信层，所以salt、salt-api、salt-job、salt-cp等均需作了适配改造。
+
 * salt：基于redis pub/sub重构优化的salt主命令
 * salt-maid：salt-syndic的替代品，运行在salts-syndic节点
 * salt-apiv2：salt-api的替代品，运行在salt-master节点
