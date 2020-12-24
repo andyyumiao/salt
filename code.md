@@ -7,5 +7,92 @@
 * salt maid: salt/scripts/sal-maid.py
 * salt ncp: salt/scripts/salt-ncp.py
 
-salt主控命令核心代码分析
+salt主控命令（salt/scripts/salt.py）核心代码分析
 ==================
+```
+#读取redis配置
+self.bootConfig = {'_sub_timeout': sub_timeout, '_sub_node': '',
+                           '_channel_redis_sentinel': self.newopt.get('channel_redis_sentinel'),
+                           '_channel_redis_password': self.newopt.get('channel_redis_password'),
+                           '_master_pub_topic': self.newopt.get('id'),
+                           '_redis_type': self.newopt.get('redis_type'),
+                           '_cluster_redis_host': self.newopt.get('cluster_redis_host'),
+                           '_cluster_redis_port': self.newopt.get('cluster_redis_port'),
+                           '_cluster_redis_password': self.newopt.get('cluster_redis_password')
+                           }
+
+# 过滤ip列表，可以在/data0/md/ip.md文件中存储要排除的ip列表，salt执行时会自动从salt执行列表进行排除
+def getPassedIp():
+    import numpy
+    numpy.warnings.filterwarnings('ignore')
+    try:
+        passed_ip = numpy.loadtxt('/data0/md/ip.md', dtype=numpy.str)
+    except Exception:
+        logger.info("====  ignore /data0/md/ip.md ======")
+        return []
+    return passed_ip.tolist()
+
+#创建redis实例
+clientPub = salt.newrun.MasterPub(**self.bootConfig)
+
+#注册redis channel
+redisChannel = clientPub.getRedisInstance().pubsub()
+
+#订阅topic，用来监听salt maid执行返回结果
+redisChannel.subscribe(wrapMesage['tempTopic'])
+                
+#将要执行的salt命令发送至redis通道
+clientPub.publishToSyndicSub(salt.newrun.json.dumps(wrapMesage))
+
+#开始消费salt maid返回数据
+while True:
+  #for message in redisChannel.listen():
+      try:
+          #获取返回消息
+          message = redisChannel.get_message()
+          ...
+      except:
+        logger.info(traceback.format_exc())
+        pass
+      #防止cpu空轮训
+      time.sleep(0.001)
+
+#取消本次命令订阅
+redisChannel.unsubscribe(wrapMesage['tempTopic'])
+
+#断开redis连接，本次命令执行结束
+redisChannel.connection_pool.disconnect()
+
+#如下是统计命令执行结果的汇总统计
+for result in emptyRet:
+    if result['ret_']:
+        # begin print in client console
+        self._output_ret(result['ret_'], result['out'])
+
+for result in noResponseRet:
+    if result['ret_']:
+        for k, v in result['ret_'].items():
+            if k not in sucset:
+                # begin print in client console
+                self._output_ret(result['ret_'], result['out'])
+
+for result in noConnectRet:
+    if result['ret_']:
+        for k, v in result['ret_'].items():
+            if k not in sucset:
+                # begin print in client console
+                self._output_ret(result['ret_'], result['out'])
+
+disconnectedSyndic = set(comeSubList).difference(resultPingSet)
+if disconnectedSyndic:
+    print_cli('With disconnected syndic: %s' % list(disconnectedSyndic))
+
+if len(timeoutSet) > 0 or len(lossSyndic) > 0:
+    print('missed maids: {}\nmissed minions: {}'.format(",".join(lossSyndic), ",".join(timeoutSet)))
+
+if len(repeatet) > 0:
+    print('Find some minion run repeated: {}'.format(repeatet))
+
+print('normal size: {}\nmissed size: {}\nempty size: {}'.format(normalsize, len(timeoutSet),
+                                                                len(emptyRet)))
+```
