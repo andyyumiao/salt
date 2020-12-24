@@ -138,23 +138,20 @@ the world. The following links should get you started:
 
 * git clone https://github.com/andyyumiao/salt.git
 
-* 进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
-* 修改salt master端配置文件，增加redis配置，vim /etc/salt/master
+* 1、进入/salt/录下，执行./setup.py install，会在/usr/bin/目录下生成salt-maid、saltx、salt-apiv2等启动脚本
+* 2、修改salt master端配置文件，增加redis配置，vim /etc/salt/master
+* 2.1、按redis哨兵集群方式配置：
+    redis_type: sentinel
+    channel_redis_sentinel: 172.21.162.37:26379,172.21.163.104:26379,172.21.163.41:26379
+    channel_redis_password: bdpyum
+    channel_sub_timeout: 30
 
-
-
-按redis哨兵集群方式配置：
-redis_type: sentinel
-channel_redis_sentinel: 172.21.162.37:26379,172.21.163.104:26379,172.21.163.41:26379
-channel_redis_password: bdpyum
-channel_sub_timeout: 30
-
-按redis cluster集群方式配置：
-redis_type: cluster
-cluster_redis_host: redis-4ydfqifaig5w-proxy-nlb.jvessel.local
-cluster_redis_port: 6379
-cluster_redis_password: Bdpops890
-channel_sub_timeout: 30
+* 2.2、按redis cluster集群方式配置：
+     redis_type: cluster
+     cluster_redis_host: redis-4ydfqifaig5w-proxy-nlb.jvessel.local
+     cluster_redis_port: 6379
+     cluster_redis_password: Bdpops890
+     channel_sub_timeout: 30
 
 
 
