@@ -128,8 +128,8 @@ the world. The following links should get you started:
 * salt-apiv2：salt-api的替代品，运行在salt-master节点
 * saltx：对应官方原生salt命令，运行在salt-master节点，用于控制salt-maid节点
 * salt-minion：原生salt-minion。注意：在salt-maid节点上也需要启该服务
-* salt-ncp：原生salt-cp的替代品。
-* salt-cp：已废弃。
+* salt-ncp：对应原生salt-cp，只用来控制到salt-maid的文件传输
+* salt-cp：原生salt-cp的替代品。
 * salt-syndic：已废弃。
 * salt-api：已废弃。
 
