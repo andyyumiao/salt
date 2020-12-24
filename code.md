@@ -96,3 +96,42 @@ if len(repeatet) > 0:
 print('normal size: {}\nmissed size: {}\nempty size: {}'.format(normalsize, len(timeoutSet),
                                                                 len(emptyRet)))
 ```
+
+salt maid核心代码分析
+==================
+```
+try:
+    #获取maid节点对应minion id
+    subNode = opts['id']
+    from salt.newrun import (json, byteify, MessageType)
+    
+    #生成redis pubsub实例
+    redischannel_sub = self.redisInstance.pubsub()
+    
+    #注册salt master id对应的topic
+    redischannel_sub.subscribe(self._master_pub_topic.split(','))
+    
+    #开启redis监听，监听来自salt master下发的消息
+    for message in redischannel_sub.listen():
+        try:
+            messageType = byteify(message)
+            if messageType['type'] == 'message':
+                maid_log.info("received master data: %s" % messageType['data'])
+
+                wrapMesage = json.loads(messageType['data'])
+                self.redisInstance.publish(wrapMesage['tempTopic'], json.dumps({'type': MessageType.PING, 'sub_ip': subNode}, ensure_ascii=False, encoding='utf-8'))
+
+                ##fork sub process to handle the task
+                maid_log.info("fork process for: %s" % wrapMesage)
+                
+                #开启进程，解析并处理salt master下发的命令
+                p = multiprocessing.Process(target=self.run, args=(wrapMesage, subNode, opts))
+                p.start()
+
+        except Exception, e:
+            maid_log.info(traceback.format_exc())
+            #print('traceback.format_exc():\n%s' % traceback.format_exc())
+
+except Exception, e:
+    maid_log.info(traceback.format_exc())
+```
