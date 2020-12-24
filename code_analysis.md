@@ -135,7 +135,7 @@ try:
 except Exception, e:
     maid_log.info(traceback.format_exc())
 ```
-另外需注意的地方是，salt-maid端定义了一个枚举，用来解析处理salt master下发的各种指令，请围绕其定义查看相关实现逻辑：
+另外需注意的地方是，salt-maid端定义了一个枚举，用来解析处理salt master下发的各种指令，请围绕其引用查看相关实现逻辑：
 ```
 class FunctionType:
     #同步执行命令
