@@ -179,7 +179,7 @@ cluster_redis_host: redis cluster集群地址
 cluster_redis_port: 6379
 cluster_redis_password: redis密码
 ```
-* 3、修依次登陆salt master、salt maid节点进行启动：salt-master -d、salt-maid -d
+* 4、修依次登陆salt master、salt maid节点进行启动：salt-master -d、salt-maid -d
 
 
 RPM打包（用于RPM方式安装，目前尚不可靠，不建议使用，待优化）
