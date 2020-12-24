@@ -163,17 +163,17 @@ id: x.x.x.x
 * 3、修改salt maid端配置文件，增加redis配置，vim /etc/salt/master
 * 3.1、按redis哨兵集群方式配置：
 ```
-redis_type: sentinel
 #salt master ip
+super_master: x.x.x.x,x.x.x.x
 channel_redis_sentinel: redis哨兵集群地址
 channel_redis_password: redis密码
-channel_sub_timeout: 30
+redis_type: sentinel
 ```
 
 * 3.2、按redis cluster集群方式配置：
 ```
 #salt master ip
-super_master: x.x.x.x
+super_master: x.x.x.x,x.x.x.x
 redis_type: cluster
 cluster_redis_host: redis cluster集群地址
 cluster_redis_port: 6379
