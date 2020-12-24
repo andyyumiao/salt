@@ -135,3 +135,57 @@ try:
 except Exception, e:
     maid_log.info(traceback.format_exc())
 ```
+
+salt apiv2核心代码分析
+==================
+```
+#获取redis实例
+redisWrapper = Singleton(**self.bootConfig)
+
+#获取salt master id
+selfIp = salt_config['id']
+
+#生成redis pubsub实例
+redisChannel = redisWrapper.redisInstance.pubsub()
+
+#订阅redis回调topic
+redisChannel.subscribe(wrapMesage['tempTopic'])
+
+noResponseRet = []
+noConnectRet = []
+emptyRet = []
+# retcodes = []
+
+comeSubList = getAcceptIp()
+if selfIp in comeSubList:
+    comeSubList.remove(selfIp)
+
+syndic_count = len(comeSubList)
+resultCount = 0
+pingCount = 0
+
+resultPingSet = set()
+resultExeSet = set()
+executeStart = time.time()
+
+# NOTE: must publish cmd after registered the redis listen
+# else we will miss ping message
+#发送salt命令到redis队列
+redisWrapper.redisInstance.publish(redisWrapper.master_pub_topic, salt.newrun.json.dumps(wrapMesage))
+
+#开启轮训监听
+while True:
+#for message in redisChannel.listen():
+    try:
+        #获取redis消息
+        message = redisChannel.get_message()
+        ...
+    except:
+      api_log.info(traceback.format_exc())
+      pass
+    #防止cpu空轮训
+    time.sleep(0.001)
+```
+
+salt cp代码改造可参考上述逻辑
+==================
