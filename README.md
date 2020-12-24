@@ -110,17 +110,14 @@ the world. The following links should get you started:
 
 `<https://docs.saltstack.com/en/develop/topics/development/pull_requests.html>`_
 
+
+目录
 ==================
-安装引导
-==================
-
-1.源码直接安装
-
-2.RPM打包
-
-3.RPM安装
-
-4.架构说明
+1.说明
+2.源码安装
+3.RPM打包
+4.RPM安装
+5.架构说明
 
 说明
 ===============
@@ -129,6 +126,8 @@ the world. The following links should get you started:
 * salt-apiv2：salt-api的替代品，运行在salt-master节点
 * saltx：对应官方原生salt命令，运行在salt-master节点，用于控制salt-maid节点
 * salt-minion：原生salt-minion。注意：在salt-maid节点上也需要启该服务
+* salt-ncp：原生salt-cp的替代品。
+* salt-cp：已废弃。
 * salt-syndic：已废弃。
 * salt-api：已废弃。
 
@@ -213,7 +212,3 @@ RPM安装
 <p align="center">
 <img src="https://camo.githubusercontent.com/a16383c452c33bbe27313c0cd6513c25e6c25dfde8f1d45caca8d534426861ce/687474703a2f2f73746f726167652e6a642e636f6d2f6264702d75706c6f616465642d66696c65732f3230313930343034313033332d31626234613162622d353932312d343436652d616431302d6364346134363236396536646d61782e706e673f457870697265733d33373031383238383539264163636573734b65793d36663465393435613164353536653664383764396266343163376364666333663131646132646332265369676e61747572653d54496c6866565a4c6955793868594f427435765857363078556b77253344" alt="SaltBoot" title="SaltBoot" />
 </p>
-
-源码剖析
-===============
-* 核心入口
