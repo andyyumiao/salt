@@ -143,18 +143,41 @@ the world. The following links should get you started:
 * 2.1、按redis哨兵集群方式配置：
 ```
 redis_type: sentinel
-channel_redis_sentinel: 172.21.162.37:26379,172.21.163.104:26379,172.21.163.41:26379
-channel_redis_password: bdpyum
+channel_redis_sentinel: redis哨兵集群地址
+channel_redis_password: redis密码
 channel_sub_timeout: 30
+#salt master ip
+id: x.x.x.x
 ```
 
 * 2.2、按redis cluster集群方式配置：
 ```
 redis_type: cluster
-cluster_redis_host: redis-4ydfqifaig5w-proxy-nlb.jvessel.local
+cluster_redis_host: redis cluster集群地址
 cluster_redis_port: 6379
-cluster_redis_password: Bdpops890
+cluster_redis_password: redis密码
 channel_sub_timeout: 30
+#salt master ip
+id: x.x.x.x
+```
+* 3、修改salt maid端配置文件，增加redis配置，vim /etc/salt/master
+* 3.1、按redis哨兵集群方式配置：
+```
+redis_type: sentinel
+#salt master ip
+channel_redis_sentinel: redis哨兵集群地址
+channel_redis_password: redis密码
+channel_sub_timeout: 30
+```
+
+* 3.2、按redis cluster集群方式配置：
+```
+#salt master ip
+super_master: x.x.x.x
+redis_type: cluster
+cluster_redis_host: redis cluster集群地址
+cluster_redis_port: 6379
+cluster_redis_password: redis密码
 ```
 
 
